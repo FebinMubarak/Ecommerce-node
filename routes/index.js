@@ -29,7 +29,7 @@ router.get('/', function(req, res, next) {
       image:"https://www.juneflowers.ae/pub/media/catalog/product/cache/cf3f2243ef4940fd5c66f2ff035145ac/r/e/red_rose_in_black_wrap.png"
     }
   ]
-  res.render('index', {flowers});
+  res.render('index', {flowers,User:true});
 });
 
 module.exports = router;
