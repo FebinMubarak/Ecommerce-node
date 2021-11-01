@@ -1,18 +1,18 @@
-const mongoClient = require("mongodb").Mongoclient
+var MongoClient = require('mongodb').MongoClient
 const state = {
     db:null
 }
 
 module.exports.connect = function(done){
     const url = "mongodb://localhost:27017"
-    const dbname = "Flowercart"
+    const dbname = "Flowercart1"
 
-    mongoClient.connect(url,function(err,data){
+    MongoClient.connect(url,function(err,data){
         if (err)
         return done(err)
 
         state.db = data.db(dbname)
-
+        
         done()
 
 

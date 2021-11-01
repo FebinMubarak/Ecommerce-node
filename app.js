@@ -11,6 +11,7 @@ db.connect(function(err){
   console.log("Connection Error"+err)
   else console.log("Database connected")
 })
+var bodyParser = require('body-parser');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
