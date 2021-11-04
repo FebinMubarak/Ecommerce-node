@@ -1,4 +1,6 @@
 var db = require("../config/connection")
+var collection = require("../config/collections");
+const collections = require("../config/collections");
 
  
 
@@ -15,5 +17,10 @@ module.exports = {
               
         })
 
+    },getAllProducts : function(){
+        return new Promise(async function(resolve,reject){
+            let flowers = await db.get().collection(collections.ITEM_COLLECTION).find().toArray()
+            resolve(flowers)
+        })
     }
 }
