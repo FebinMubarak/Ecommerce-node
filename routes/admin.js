@@ -6,7 +6,7 @@ var productHelpers = require("../helpers/product-helpers")
 router.get('/', function(req, res, next) {
   productHelpers.getAllProducts().then(function(flowers){
     console.log(flowers)
-    res.render("admin/all-products",{flowers,admin:true})
+    res.render("admin/all-products",{flowers,User:false})
   })
   
 });
