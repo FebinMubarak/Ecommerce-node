@@ -33,10 +33,30 @@
      
 <div class="dropdown">
   <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Account
+   {{#if user}}
+
+     {{user.first_name}}
+
+     {{else}}
+     Account
+
+
+   {{/if}}
+
+
+    
   </button>
   <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+    {{#if user}}
+
+     <a class="dropdown-item" href="/logout">logout</a>
+
+     {{else}}
     <a class="dropdown-item" href="/login">login</a>
+
+
+   {{/if}}
+    
     
   </div>
 </div>

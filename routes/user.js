@@ -5,9 +5,12 @@ const userhelper = require('../helpers/user-helper');
 
 /* GET home page. */
 router.get('/', function(req, res, next) { 
+  let user = req.session.user
+  console.log(user);
+
   productHelpers.getAllProducts().then(function(flowers){
-    console.log(flowers)
-    res.render("../user/all-products",{flowers,User:true})
+    
+    res.render("../user/all-products",{flowers,User:true,user})
   })
   
   
@@ -18,7 +21,7 @@ router.get("/login",function(req,res,next){
 });
 router.get("/signup",function(req,res,next){
 
-  res.render("../user/signup",)
+  res.render("../user/signup",{User:true})
 })
 router.post("/signup",function(req,res){
 
@@ -31,7 +34,24 @@ router.post("/signup",function(req,res){
     }
 
   })
+  res.redirect("/login")
 
+})
+router.post("/login",function(req,res){
+  userhelper.dologin(req.body).then(function(response){
+    if(response.status){
+      
+      req.session.loggedIn = true
+      req.session.user = response.user
+      res.redirect("/")
+    }else{
+      res.redirect("/login")
+    }
+  })
+})
+router.get("/logout",function(req,res){
+  req.session.destroy()
+  res.redirect("/login")
 })
 
 

@@ -2,21 +2,21 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const hbs = require('express-handlebars');
-var fileUpload = require('express-fileUpload')
-var db = require("./config/connection")
-db.connect(function(err){
-  if (err)
-  console.log("Connection Error"+err)
-  else console.log("Database connected")
-})
 var bodyParser = require('body-parser');
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 
 var app = express();
-
+var logger = require('morgan');
+const hbs = require('express-handlebars');
+var fileUpload = require('express-fileUpload')
+var db = require("./config/connection")
+var session = require("express-session")
+db.connect(function(err){
+  if (err)
+  console.log("Connection Error"+err)
+  else console.log("Database connected")
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload())
+app.use(session({secret:"key",cookie:{maxAge:600000}}))
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', userRouter);
