@@ -57,6 +57,9 @@ form {
     <div class="card login-form">  
     <div class="card-body">  
         <h3 class="card-title text-center"> Login </h3>  
+        {{#if loginErr}}
+                    <p class="eroor">The password or Email you entered is not valid !</p>
+                    {{/if}}
         <div class="card-text">  
             <form action="/login" method="post">  
                 <div class="form-group">  
@@ -71,6 +74,8 @@ form {
                 <a href="#" style="float:right;font-size:12px;"> Forgot password? </a>   
                 <div class="sign-up">  
                     Don't have an account? <a href="/signup"> Create One </a>
+                    <br>
+                    
                     <div>
                     				
                     </div>
