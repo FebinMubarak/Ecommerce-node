@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var productHelpers = require("../helpers/product-helpers");
-const userhelper = require('../helpers/user-helper');
+var userHelper = require('../helpers/user-helper');
+
 const verifylogin = function(req,res,next){
   if(req.session.loggedIn){
     next()
@@ -10,19 +11,22 @@ const verifylogin = function(req,res,next){
   else{
     res.redirect("/login")
   }
-}
+} 
 
 /* GET home page. */
-router.get('/', function(req, res, next) { 
+router.get('/', async function(req, res, next) { 
   let user = req.session.user
+ let CartCount = null
+ if(req.session.user){
+ CartCount = await userHelper.getCartCount(req.session.user._id)
+ }
   
 
   productHelpers.getAllProducts().then(function(flowers){
     
-    res.render("../user/all-products",{flowers,User:true,user})
+    res.render("../user/all-products",{flowers,User:true,user,CartCount})
   })
-  
-  
+
 });
 router.get("/login",function(req,res,next){
   if(req.session.loggedIn){
@@ -38,7 +42,7 @@ router.get("/signup",function(req,res,next){
 })
 router.post("/signup",function(req,res){
 
-  userhelper.dosignup(req.body).then(function(response,err){
+  userHelper.dosignup(req.body).then(function(response,err){
 
     if(!err){
       console.log(req.body)
@@ -51,7 +55,7 @@ router.post("/signup",function(req,res){
 
 })
 router.post("/login",function(req,res){
-  userhelper.dologin(req.body).then(function(response){
+  userHelper.dologin(req.body).then(function(response){
     if(response.status){
       
       req.session.loggedIn = true
@@ -64,13 +68,29 @@ router.post("/login",function(req,res){
   })
 })
 router.get("/logout",function(req,res){
-  req.session.destroy()
+  req.session.destroy() 
   res.redirect("/login")
 })
-router.get("/cart",verifylogin, function(req,res){
+router.get("/cart",verifylogin,async (req,res)=>{
   
+  let items  = await userHelper.getCartitems(req.session.user._id)
   
-  res.render("../user/cart",{User:true,user:req.session.user})
+  console.log(items)
+
+  res.render("../user/cart",{items,User:true,user:req.session.user})
+})
+router.get("/add-to-cart/:id",function(req,res){
+
+  console.log("api call")
+
+  userHelper.addTocart(req.params.id,req.session.user._id).then(function(){
+    
+  res.json({status:true})
+    
+    
+  })
+
 })
 
 module.exports = router;
+

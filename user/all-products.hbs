@@ -10,7 +10,8 @@
   <img src="images/{{this._id}}.jpg" class="card-img-top" style="height: 15rem; p-3" alt="">
   <div class="card-body">
     <p class="card-text">{{this.Description}}</p>
-    <a href="#" class="btn btn-primary">Add to Cart</a>
+    
+    <button onclick="addTocart('{{this._id}}')" class="btn btn-success" >Add to cart</button>
     
   </div>
 </div>
@@ -23,6 +24,8 @@
         
         
     </section>
+
+    
 
     
     
