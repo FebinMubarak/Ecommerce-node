@@ -1,3 +1,4 @@
+
 function addTocart(proId){
     $.ajax({
         url:"/add-to-cart/"+proId,

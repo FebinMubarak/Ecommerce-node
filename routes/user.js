@@ -91,6 +91,14 @@ router.get("/add-to-cart/:id",function(req,res){
   })
 
 })
+router.post("/change-product-quantity",function(req,res,next){
+  console.log(req.body)
+  userHelper.changeproductQuantity(req.body).then(function(response){
+
+    res.json(response)  
+
+  })
+})
 
 module.exports = router;
 
