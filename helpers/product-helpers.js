@@ -9,6 +9,7 @@ var ObjectId = require("mongodb").ObjectId
 module.exports = {
     addproduct : function(items,callback){
         console.log(items);
+        items.price = parseInt(items.price)
         db.get().collection("items").insertOne(items).then(function(data){
             
             console.log(data)
@@ -47,11 +48,12 @@ module.exports = {
 
     },updateproduct : function(proId,proDetails){
         return new Promise(function(resolve,reject){
+            
             db.get().collection(collections.ITEM_COLLECTION).updateOne({_id:ObjectId(proId)},
             {
                 $set : {
                     name : proDetails.name,
-                    price : proDetails.price,
+                    price : parseInt(proDetails.price),
                     catogory : proDetails.catogory,
                     Description : proDetails.Description
 

@@ -52,6 +52,7 @@ module.exports = {
             quantity : 1
         }
         
+        
         return new Promise(async function(resolve,reject){
 
         let usercart = await db.get().collection(collections.CART_COLLECTIONS).findOne({user:ObjectId(userId)})
@@ -142,6 +143,7 @@ module.exports = {
         details.count = parseInt(details.count)
         details.quantity = parseInt(details.quantity)
         
+        
         return new Promise(function(resolve,reject){
             if(details.count==-1 && details.quantity==1){
                 db.get().collection(collections.CART_COLLECTIONS).updateOne({_id:ObjectId(details.cart)},
@@ -163,6 +165,39 @@ module.exports = {
             })
         }
         })
+    },gettotal:(userId)=>{
+        return new Promise(async (resolve,reject)=>{
+            let total =await db.get().collection(collections.CART_COLLECTIONS).aggregate([
+            { $match : {user:ObjectId(userId)}
+            },{
+                $unwind:'$items'
+            },{
+                $project:{
+                    item:'$items.item',
+                    quantity:'$items.quantity'
+                    
+                }
+            },{
+                $lookup:{
+                    from:collections.ITEM_COLLECTION,
+                    localField:'item',
+                    foreignField:'_id',
+                    as:'product'  
+                }
+            }, {
+                $project:{
+                  item:1,quantity:1,products:{$arrayElemAt:['$product',0]}  
+                }
+            },
+            {
+                $group:{
+                    _id:null, 
+                    total:{$sum:{$multiply:['$quantity','$products.price']}}
+                }
+            }]).toArray()
+             console.log(total)
+             resolve(total)
+        })
+        
     }
-
 }
