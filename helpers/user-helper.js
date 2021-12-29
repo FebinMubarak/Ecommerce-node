@@ -161,7 +161,7 @@ module.exports = {
             }
             
             ).then(function(response){
-                resolve(true)
+                resolve({status:true})
             })
         }
         })
@@ -196,7 +196,7 @@ module.exports = {
                 }
             }]).toArray()
              console.log(total)
-             resolve(total)
+             resolve(total[0].total)
         })
         
     }
