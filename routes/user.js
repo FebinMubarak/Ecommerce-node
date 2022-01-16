@@ -74,7 +74,11 @@ router.get("/logout",function(req,res){
 router.get("/cart",verifylogin,async (req,res)=>{
   
   let items  = await userHelper.getCartitems(req.session.user._id)
-  let totalValue = await userHelper.gettotal(req.session.user._id)
+  let totalValue = 0
+  if(items.length>0){
+    totalValue = await userHelper.gettotal(req.session.user._id)
+  }
+  
   
   console.log(items)
  
@@ -105,6 +109,50 @@ router.post("/change-product-quantity",async function(req,res,next){
 router.get("/place-order",verifylogin,async(req,res)=>{
   let total = await userHelper.gettotal(req.session.user._id)
   res.render("../user/place-order",{User:true,user:req.session.user,total})
+})
+router.post("/place-order",async function(req,res){
+  let items = await userHelper.getcartproductlist(req.body.userId)
+  let totalPrice = await userHelper.gettotal(req.body.userId)
+  userHelper.placeOrder(req.body,items,totalPrice).then(function(orderId){
+    if(req.body['payment-method']=='COD'){
+      res.json({CODSuccess:true})
+    }else{
+      userHelper.generateRazorpay(orderId,totalPrice).then(function(response){
+        res.json(response)
+        
+      })
+    }
+    
+
+  })
+  console.log(req.body)
+})
+router.get("/orders",function(req,res){
+  res.render("../user/orders",{User:true,user:req.session.user})
+})
+router.get("/view-orders",verifylogin,async function(req,res){
+  let orders = await userHelper.getorderDetails(req.session.user._id)
+  res.render("../user/view-orders",{user:req.session.user,User:true,orders})
+})
+router.get("/orderproducts/:id",async function(req,res){
+  products = await  userHelper.getproducts(req.params.id)
+  res.render("../user/orderproducts",{user:req.session.user,User:true,products})
+
+})
+router.post("/verify-payment",function(req,res){
+  console.log(req.body)
+  userHelper.verifyPayment(req.body).then(function(){
+    userHelper.changePaymentstaus(req.body['order[receipt]']).then(function(){
+      console.log("Payment success")
+      res.json({status:true})
+    })
+  }).catch(function(err){
+    console.log(err);
+    res.json({status:false,errMsg:""})
+  })
+})
+router.get("/view-orders", function(req,res){
+  res.render("../user/view-orders",{User:true,user:req.session.user._id})
 })
 module.exports = router;
 

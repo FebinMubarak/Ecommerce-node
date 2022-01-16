@@ -19,7 +19,8 @@
     "mongoclient": "^1.0.3",
     "mongodb": "^4.1.3",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.13",
+    "razorpay": "^2.8.0"
   },
   "devDependencies": {
     "handlebars": "^4.7.7"
