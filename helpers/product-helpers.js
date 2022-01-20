@@ -65,6 +65,25 @@ module.exports = {
 
             })
         })
+    },dologinadmin : function(admindata){
+        return new Promise (function(resolve,reject){
+            let loginstatus = false
+            let response = {}
+            let admin = db.get().collection("admin").findOne({username:admindata.username
+                }).then(function(status){
+                     
+                    if(admin){
+                        
+                          response.status = true
+                          console.log("login success")
+                          resolve(response)
+
+                    }else{
+                        console.log("login failed")
+                        resolve({status:false})
+                    }
+                })
+        })
     }
 
 }

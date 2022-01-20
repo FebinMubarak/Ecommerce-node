@@ -4,12 +4,27 @@ var productHelpers = require("../helpers/product-helpers")
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  productHelpers.getAllProducts().then(function(flowers){
-    console.log(flowers)
-    res.render("admin/all-products",{flowers,User:false})
-  })
   
+    res.render("admin/adminlogin",{User:false})
+
 });
+router.post("/adminlogin",function(req,res){
+  productHelpers.dologinadmin(req.body).then(function(response){
+    if(response.status){
+      productHelpers.getAllProducts().then(function(flowers){
+        console.log(flowers)
+        res.render("admin/all-products",{flowers,User:false})
+      })
+      
+      
+    }else{
+      res.redirect("/adminlogin")
+    }
+  })
+})
+
+
+
 router.get("/add-product",function(req,res){
   res.render("admin/add-product")
 })
