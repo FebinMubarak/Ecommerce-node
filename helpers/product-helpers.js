@@ -70,10 +70,12 @@ module.exports = {
             let loginstatus = false
             let response = {}
             let admin = db.get().collection("admin").findOne({username:admindata.username
-                }).then(function(status){
+                })
                      
                     if(admin){
-                        
+                          let adminn = db.get().collection("admin").findOne({password:admindata.password}).then(function(response){
+                              
+                          })
                           response.status = true
                           console.log("login success")
                           resolve(response)
@@ -83,7 +85,9 @@ module.exports = {
                         resolve({status:false})
                     }
                 })
-        })
+        
     }
+
+
 
 }

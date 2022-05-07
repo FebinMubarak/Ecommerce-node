@@ -8,11 +8,13 @@ router.get('/', function(req, res, next) {
     res.render("admin/adminlogin",{User:false})
 
 });
-router.post("/adminlogin",function(req,res){
-  productHelpers.dologinadmin(req.body).then(function(response){
+router.post("/adminlogin", function(req,res){
+  productHelpers.dologinadmin(req.body).then( function(response){
     if(response.status){
-      productHelpers.getAllProducts().then(function(flowers){
+     productHelpers.getAllProducts().then(function(flowers){
         console.log(flowers)
+        
+
         res.render("admin/all-products",{flowers,User:false})
       })
       
