@@ -1,18 +1,19 @@
 
-    <section>
-        <div class="container mt-5 ">
+<section class="mainbg" >
+    <div class="container mt-5 ">
         <div class="row">
             {{#each flowers}}
-            <div class="col-md-3 p-3">
-                <div class="card" style="width: 15rem; height: 25rem; ">
+            <div class="col-md-3 p-3 ">
+                <div class="card-1" id="card">
                     
-                    <h5 class="card-title">{{this.name}}</h5>
-                    <p>{{this.price}}</p>
-  <img src="images/{{this._id}}.jpg" class="card-img-top" style="height: 15rem; p-3" alt="">
+                    <h5 class="card-title p-3">{{this.name}}        <br>     <span >  Dh{{this.price}}</span></h5>
+                   
+                    
+  <img src="images/{{this._id}}.jpg" class="card-img-top rounded-top" style="height: 15rem; p-3" alt="">
   <div class="card-body">
-    <p class="card-text">{{this.Description}}</p>
+      <p class="card-text">{{this.Description}}</p>
     
-    <button onclick="addTocart('{{this._id}}')" class="btn btn-success" >Add to cart</button>
+    <button onclick="addTocart('{{this._id}}')" class="btn-1" >Add to cart</button>
     
   </div>
 </div>
@@ -22,11 +23,5 @@
             </div>
 
         </div>
-        
-        
-    </section>
 
-    
-
-    
-    
+</section>
