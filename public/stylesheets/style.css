@@ -3,9 +3,13 @@
     
 }
 #card{
-    border: 1px snow;
+   background-color: #ecf4fb;
    
 
+}
+.cd{
+    background-color:  
+    #a1a7ad;
 }
 
 *{
@@ -46,7 +50,7 @@
     padding-left: 50px;
 }
 .nav-link{
-    color: #ccc !important;
+    color: rgb(167, 161, 161) !important;
     letter-spacing: 2px;
     font-size: 1em;
     font-weight: 700;
@@ -55,8 +59,8 @@
 
 
 .nav-link:hover{
-    background: #dcdde1 !important;
-    color: #262626 !important;
+    background: #d7dbea !important;
+    color: #110f0f !important;
     border-radius: 5px;
     transition: all 0.6s ease 0s;
 
